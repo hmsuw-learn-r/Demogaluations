@@ -1,2 +1,2 @@
-# John_Snow_Final_Project
-Evaluations and Demographics functions
+#  Demogaluations Final Project
+Evaluations and Demographics functions for HMS 520 Final Project
