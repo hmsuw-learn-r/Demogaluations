@@ -12,16 +12,10 @@
 #' new_ddt <- mod_densities(c(0,15,30,40,50))
 mod_densities <- function(cutpoints, ddt = dt_density_tbl) {
 
-  # check that cutpoints are numeric and the correct length
-  if(!is.numeric(cutpoints) | length(cutpoints) != nrow(ddt)) {
-    stop(paste0("Error: Cutpoints must be an atomic vector of length",
-                nrow(ddt)))
-  }
-
-  # check that the lowest cutpoint is 0
-  if(min(cutpoints) != 0) {
-    stop("Error: cutpoints should be a sequence starting at 0")
-  }
+  # cutpoints must be numeric, of proper length, and have a min of 0
+  assertthat::assert_that(is.numeric(cutpoints))
+  assertthat::assert_that(length(cutpoints) == nrow(ddt))
+  assertthat::assert_that(min(cutpoints) == 0)
 
   # create copy of ddt to return
   modded_ddt <- copy(ddt)

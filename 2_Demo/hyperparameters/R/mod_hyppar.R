@@ -13,15 +13,19 @@
 #' new_ddt <- mod_hyppar("zeta", 0.3, new_ddt)
 mod_hyppar <- function(x, new_values, ddt = dt_density_tbl) {
 
-  # Check if x is a hyperparameter which exists
+  # new values must be numeric. X must be a string and not a data density column
+  assertthat::assert_that(is.numeric(new_values))
+  assertthat::assert_that(assertthat::is.string(x))
+  assertthat::assert_that(!(x %in% c("data_density_category",
+                                     "density_min", "density_max")),
+                          msg = "to change the data density variables, use mod_densities()")
+
+  # warn if x is unknown hyperparameter
   if (!(x %in% names(ddt))) {
-    warning("x is new hyperparameter, adding as new column")
+    warning(paste0(x, " is new hyperparameter, adding as new column"))
   }
 
-  # check if x is a numeric vector
-  if(!is.numeric(new_values)) {
-    stop("hyperparameter values must be numeric")
-  }
+
 
   modded_ddt <- copy(ddt)
   modded_ddt[, (x) := new_values]

@@ -2,16 +2,25 @@
 % Please edit documentation in R/mod_hyppar.R
 \name{mod_hyppar}
 \alias{mod_hyppar}
-\title{Title}
+\title{Modify hyperparameter values}
 \usage{
-mod_hyppar(x, new_values)
+mod_hyppar(x, new_values, ddt = dt_density_tbl)
 }
 \arguments{
-\item{new_values}{}
+\item{x}{char. name of hyperparameter to adjust, or new hyperparameter
+use names(dt_density_tbl) for default hyperparameters}
+
+\item{new_values}{vector of numerics which are hyperparameter values}
+
+\item{ddt}{data density table. Uses the generic dt_density_tbl as default}
 }
 \value{
-
+data density table with modified hyperparrameter.
 }
 \description{
-Title
+Modify hyperparameter values
+}
+\examples{
+new_ddt <- mod_hyppar("beta", seq(5, 25, 5))
+new_ddt <- mod_hyppar("zeta", 0.3, new_ddt)
 }

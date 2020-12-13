@@ -1,4 +1,4 @@
-hyperparameters_srb <- function(data, ddt <- dt_density_tbl) {
+hyperparameters_srb <- function(data, ddt = dt_density_tbl) {
 
   #'TODO:
   #'theoretical spacetime prep function: likely missing steps, but it is a proof
