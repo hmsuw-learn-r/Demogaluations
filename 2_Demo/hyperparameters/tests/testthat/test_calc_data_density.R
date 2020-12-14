@@ -4,13 +4,18 @@ test_that("calc_data_density throws error if columns inputed are not in data", {
 })
 
 test_that("calc_data_density outputs correct data", {
-  expect_type(calc_data_density(data = Belgium, vars ="vr",source_id = "source_id"), "list")
-
   expect_equal(calc_data_density(data = Belgium, vars ="vr",source_id = "source_id"),
-               data.table(location_id = 76,
-                    `NA` = 3,
-                    cbh = 2,
-                    sample_registration = 2,
-                    vr = 11,
-                    data_density = 11))
+              setkey(data.table(location_id = 76,
+                    data_density = 11), location_id))
+})
+
+test_that("calc_data_density: vars must contains values in source_type column", {
+  expect_error(calc_data_density(calc_data_density(data = Belgium, vars ="doop",source_id = "source_id")))
+})
+
+test_that("calc_data_density: error if weights are not numeric or correct length", {
+  expect_error(calc_data_density(data = Belgium, vars ="vr", weights = c(3,2),
+                                 source_id = "source_id"))
+  expect_error(calc_data_density(data = Belgium, vars ="vr", weights = c("d","c"),
+                                 source_id = "source_id"))
 })

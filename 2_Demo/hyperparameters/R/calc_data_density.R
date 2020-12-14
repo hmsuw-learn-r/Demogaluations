@@ -32,11 +32,10 @@ calc_data_density <- function(data,
   #' source_type:year_id are strings which are column names in data
   #' vars is type char
   #' weights is numeric and either length 1 or the same length as vars
-  assertthat::assert_that(source_type %in% names(data))
-  assertthat::assert_that(source_id %in% names(data))
-  assertthat::assert_that(location_id %in% names(data))
-  assertthat::assert_that(year_id %in% names(data))
+  assertthat::assert_that(
+    assertthat::has_name(data, c(source_type, source_id, location_id, year_id)))
   assertthat::assert_that(is.character(vars))
+  assertthat::assert_that(vars %in% data[, (source_type)])
   assertthat::assert_that(is.numeric(weights) &
                             (length(weights) == 1 |
                                length(weights) == length(vars)))
@@ -46,11 +45,16 @@ calc_data_density <- function(data,
 
   # for each location, count the number of each source type, reformat to wide
   data <- data[, .N, by = .((location_id), (source_type))]
-  data <- dcast(data, (location_id) ~ (source_type), value.var = "N", fill = 0)
+  data_wide <- dcast(data, (location_id) ~ (source_type), value.var = "N", fill = 0)
 
-  # Call data density variant by a weighted sum
-  data[, data_density := sum(.SD * weights),  .SDcols = vars, by = (location_id)]
+  var_names <- setdiff(names(data_wide), names(data))
+
+  # Calc data density variant by a weighted sum
+  data_wide[, data_density := sum(.SD * weights),  .SDcols = vars, by = (location_id)]
+
+  #remove vars columns
+  densities <- data_wide[, (var_names) := NULL]
 
   # return datatable with densities
-  return(data)
+  return(densities)
 }
