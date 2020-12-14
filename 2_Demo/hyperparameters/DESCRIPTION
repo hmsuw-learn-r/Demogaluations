@@ -1,0 +1,21 @@
+Package: hyperparameters
+Title: Prepare Demographics Data for ST-GPR
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Darwin",
+           family = "Jones",
+           role = c("aut", "cre"),
+           email = "darwinj@uw.edu")
+Description: Aims to centralize and refactor Demographics team code.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat
+Imports: 
+    data.table,
+    assertthat
+Depends: 
+    R (>= 2.10)
